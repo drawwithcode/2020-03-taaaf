@@ -43,7 +43,7 @@ function draw() {
 
   volume = map(volume, 0, 1, 0, 0.008);
 
-push();
+  push();
 
   for (let i = 0; i < myPersonalCorpses.length; i++) {
 
@@ -57,7 +57,7 @@ push();
 
   push()
   noStroke();
-  fill(255, 255, 255,180);
+  fill(255, 255, 255, 180);
   rect(0, 0, 210, 65);
   pop();
 
@@ -67,10 +67,10 @@ push();
   ellipse(20, 20, 33);
   pop();
 
-  text("= 1000 Drug Overdose Deaths", 40,23);
-  text("(USA from 2015 to 2020)", 50,33);
+  text("= 1000 Drug Overdose Deaths", 40, 23);
+  text("(USA from 2015 to 2020)", 50, 33);
 
-  text("click to make them dance",33,55);
+  text("click to make them dance", 33, 55);
 
 
   // console.log(volume);
@@ -92,37 +92,44 @@ function windowResized() {
 
   for (let i = myPersonalCorpses.length - 1; i >= 0; i--) {
 
-    myPersonalCorpses.splice(i, 1);
+    // myPersonalCorpses.splice(i, 1);
 
     // console.log(myPersonalCorpses[i]);
 
+    myPersonalCorpses[i].resizeWin();
+
+
+
   }
 
-  addCorpse();
+  // addCorpse();
 
 }
 
 
 
-let i = 0;
+let a = 0;
 
 function mouseClicked() {
 
-  if (i == 0) {
+  if (a == 0) {
 
     mySong.play();
 
   }
 
-  i++;
+  a++;
+
+  let b = int(random(myPersonalCorpses.length));
+
+  myPersonalCorpses[b].clicked();
 
 }
 
 
-
 let x, y;
 //
-// let a = 0;
+
 
 function addCorpse() {
 
@@ -131,6 +138,8 @@ function addCorpse() {
   // console.log(dataDeaths.deaths.length);
 
   // if(a==0){
+
+
 
   for (let i = 0; i < dataDeaths.deaths.length; i++) {
 
@@ -143,13 +152,15 @@ function addCorpse() {
       //
       // console.log(size);
 
-      const newCorpse = new Corpse(random(0, width), random(0, height), size / 2, random(1, 200));
+      const newCorpse = new Corpse(random(0, width), random(0, height), size / 2, random(200), 100);
 
       myPersonalCorpses.push(newCorpse);
 
     }
 
   }
+
+
   //
   // }else{
   //
@@ -187,29 +198,50 @@ function addCorpse() {
 
 class Corpse {
 
-  constructor(x, y, radius, color) {
+  constructor(x, y, radius,color,p) {
 
     this.x = x;
     this.y = y;
     this.radius = radius;
     this.color = color;
+    this.p = p;
 
   }
 
-  display() {
+  clicked(){
+
+      this.color = "yellow";
+      this.p = 5;
+
+    }
+
+
+  display(p) {
 
     push();
     noStroke();
     fill(this.color);
-    translate(random(0, this.radius) / 20, random(0, this.radius) / 20);
+
+    translate(random(0, this.radius) / this.p, random(0, this.radius) / this.p);
+
+    console.log(p);
+
     ellipse(this.x, this.y, this.radius * 2);
     pop();
 
   }
 
-  run() {
+  resizeWin(){
 
-    this.display();
+    this.x = random(0, width);
+    this.y = random(0, height);
+
+  }
+
+
+  run(p) {
+
+    this.display(p);
 
   }
 
